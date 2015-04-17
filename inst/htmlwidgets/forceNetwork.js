@@ -89,7 +89,12 @@ HTMLWidgets.widget({
       .data(force.nodes())
       .enter().append("g")
       .attr("class", "node")
-      .style("fill", function(d) { return color(d.group); })
+      .style("fill", function(d) { if (d.color) { 
+									return d.color 
+									} else { 
+									return color(d.group); 
+									}
+								})
       .style("opacity", options.opacity)
       .on("mouseover", mouseover)
       .on("mouseout", mouseout)

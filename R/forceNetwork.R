@@ -71,7 +71,7 @@
 #'
 #' @export
 forceNetwork <- function(Links, Nodes, Source, Target, Value = NULL, NodeID,
-	Group, height = NULL, width = NULL, fontsize = 7, linkDistance = 50,
+	Group, Color = NULL, height = NULL, width = NULL, fontsize = 7, linkDistance = 50,
 	linkWidth = "function(d) { return Math.sqrt(d.value); }", charge = -120,
 	linkColour = "#666",opacity = 0.6, zoom = FALSE)
 {
@@ -90,8 +90,15 @@ forceNetwork <- function(Links, Nodes, Source, Target, Value = NULL, NodeID,
 		LinksDF <- data.frame(Links[, Source], Links[, Target], Links[, Value])
 		names(LinksDF) <- c("source", "target", "value")
 	}
-	NodesDF <- data.frame(Nodes[, NodeID], Nodes[, Group])
-	names(NodesDF) <- c("name", "group")
+	
+	if (is.null(Color)) {
+		NodesDF <- data.frame(Nodes[, NodeID], Nodes[, Group])
+		names(NodesDF) <- c("name", "group")
+	}
+	else if (!is.null(Color)){
+		NodesDF <- data.frame(Nodes[, NodeID], Nodes[, Group], Nodes[, Color])
+		names(NodesDF) <- c("name", "group", "color")
+	}
 
 	# derive click text size
 	clickTextSize <- fontsize * 2.5
